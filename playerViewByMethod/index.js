@@ -21,7 +21,7 @@ import {
 
 import VLCPlayerView from './VLCPlayerView';
 import PropTypes from 'prop-types';
-// import Icon from 'react-native-vector-icons/ialCommunityIcons';
+import Icon from 'react-native-vector-icons/ialCommunityIcons';
 import Slider from 'react-native-slider';
 import ControlBtn from './ControlBtn';
 import TimeLimt from './TimeLimit';
