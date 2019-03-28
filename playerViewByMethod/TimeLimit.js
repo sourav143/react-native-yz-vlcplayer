@@ -56,7 +56,7 @@ export default class TimeLimt extends Component {
         activeOpacity={1}>
         {maxTime > 0 && (
           <View style={styles.timeView}>
-            <Text style={{ color: 'green', fontSize: 12 }}>{maxTime - timeNumber}</Text>
+            <Text style={{ color: '#876eff', fontSize: 12 }}>{maxTime - timeNumber}</Text>
           </View>
         )}
         <View style={styles.nameView}>
