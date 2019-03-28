@@ -21,7 +21,7 @@ import {
 
 import VLCPlayerView from './VLCPlayerView';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+// import Icon from 'react-native-vector-icons/ialCommunityIcons';
 import Slider from 'react-native-slider';
 import ControlBtn from './ControlBtn';
 import TimeLimt from './TimeLimit';
@@ -1216,7 +1216,7 @@ export default class VlCPlayerViewByMethod extends Component {
                     {/* <Text style={styles.centerContainerText}>Retry</Text> */}
                     <View style={styles.centerRowContainer}>
                         <TouchableOpacity style={styles.centerContainerBtn} onPress={this.reload} activeOpacity={1}>
-                            <MaterialIcons name="play-circle-filled" color="white" size={70} />
+                            <MaterialIcons name="gif" color="white" size={70} />
                             {/* <Icon name={'reload'} size={40} color="#fff" /> */}
                             {/* <Text style={styles.centerContainerBtnText}>{reloadBtnText}</Text> */}
                         </TouchableOpacity>
