@@ -21,11 +21,12 @@ import {
 
 import VLCPlayerView from './VLCPlayerView';
 import PropTypes from 'prop-types';
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from 'react-native-slider';
 import ControlBtn from './ControlBtn';
 import TimeLimt from './TimeLimit';
 import { getStatusBarHeight } from './SizeController';
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 const statusBarHeight = getStatusBarHeight();
 const _fullKey = 'commonVideo_android_fullKey';
 let deviceHeight = Dimensions.get('window').height;
@@ -1212,11 +1213,11 @@ export default class VlCPlayerViewByMethod extends Component {
         return (
             <View style={[styles.commonView, { backgroundColor: 'rgba(0,0,0,0.5)' }]}>
                 <View style={styles.centerContainer}>
-//                     <Text style={styles.centerContainerText}>Retry</Text>
+                    {/* <Text style={styles.centerContainerText}>Retry</Text> */}
                     <View style={styles.centerRowContainer}>
                         <TouchableOpacity style={styles.centerContainerBtn} onPress={this.reload} activeOpacity={1}>
-                          //  <Icon name={'play'} size={40} color="#fff" />
-                            <MaterialIcons name="play-circle-filled" color="white" size={70}
+                            <MaterialIcons name="play-circle-filled" color="white" size={70} />
+                            {/* <Icon name={'reload'} size={40} color="#fff" /> */}
                             {/* <Text style={styles.centerContainerBtnText}>{reloadBtnText}</Text> */}
                         </TouchableOpacity>
                         {!autoPlayNext &&
