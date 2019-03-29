@@ -140,6 +140,7 @@ export default class VlCPlayerViewByMethod extends Component {
         totalTime: 0,
         initWithFull: false,
         considerStatusBar: false,
+        enableFullScreen: true,
         style: {
         },
         fullStyle: {
@@ -172,7 +173,7 @@ export default class VlCPlayerViewByMethod extends Component {
         initType: PropTypes.oneOf([1, 2]),
         //视频初始化参数
         initOptions: PropTypes.array,
-
+        enableFullScreen: PropTypes.bool,
         /**
          * 直播相关
          */
@@ -437,7 +438,7 @@ export default class VlCPlayerViewByMethod extends Component {
         if (this.initSuccess) {
             clearInterval(this.checkInitSuccessInterval)
         } else {
-            console.log("checkInitSuccess")
+            // console.log("checkInitSuccess")
             this.playAll();
         }
     }
@@ -640,7 +641,7 @@ export default class VlCPlayerViewByMethod extends Component {
         let { isError, isEndAd } = this.state;
         this.initSuccess = true;
         let { lookTime, totalTime, showAd, autoplay } = this.props;
-        console.log(lookTime + ':' + totalTime)
+        // console.log(lookTime + ':' + totalTime)
         if (lookTime && totalTime) {
             if (Platform.OS === 'ios') {
                 if (lookTime < totalTime) {
@@ -737,7 +738,7 @@ export default class VlCPlayerViewByMethod extends Component {
     _onEnd = (data) => {
         let { url, isLive } = this.props;
         if (__DEV__) {
-            console.log('_onEnd:' + url + ' --> end', data);
+            // console.log('_onEnd:' + url + ' --> end', data);
         }
         this.hadEnd = true;
         let { currentTime, duration } = data;
@@ -785,7 +786,7 @@ export default class VlCPlayerViewByMethod extends Component {
      */
     _onOpen = e => {
         if (__DEV__) {
-            console.log('onOpen', e);
+            // console.log('onOpen', e);
         }
     };
 
@@ -899,7 +900,7 @@ export default class VlCPlayerViewByMethod extends Component {
 
     _onAdStopped = (e) => {
         if (__DEV__) {
-            console.log("_onAdStopped", e);
+            // console.log("_onAdStopped", e);
         }
         this.setState({ isEndAd: true, showAdView: false }, () => {
             this.play();
@@ -912,14 +913,14 @@ export default class VlCPlayerViewByMethod extends Component {
 
     _onAdLoadStart = e => {
         if (__DEV__) {
-            console.log("_onAdLoadStart", e);
+            // console.log("_onAdLoadStart", e);
         }
         this.initAdSuccess = false;
     }
 
     _onAdEnd = e => {
         if (__DEV__) {
-            console.log("_onAdEnd", e);
+            // console.log("_onAdEnd", e);
         }
         let { position } = e;
         if (position === 1) {
@@ -961,7 +962,7 @@ export default class VlCPlayerViewByMethod extends Component {
         this.hadEnd = false;
         let { storeUrl, adUrl, currentTime } = this.state;
         let { reloadWithAd, isLive } = this.props;
-        console.log(currentTime)
+        // console.log(currentTime)
         let isEndAd = true;
         if (reloadWithAd) {
             isEndAd = false;
@@ -1201,7 +1202,7 @@ export default class VlCPlayerViewByMethod extends Component {
         );
     }
 
-    getEndingView = () => {
+    getEndingView = (value) => {
         let {
             autoPlayNext,
             hadNext,
@@ -1216,7 +1217,7 @@ export default class VlCPlayerViewByMethod extends Component {
                     {/* <Text style={styles.centerContainerText}>Retry</Text> */}
                     <View style={styles.centerRowContainer}>
                         <TouchableOpacity style={styles.centerContainerBtn} onPress={this.reload} activeOpacity={1}>
-                            <MaterialIcons name="gif" color="white" size={70} />
+                            <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} />
                             {/* <Icon name={'reload'} size={40} color="#fff" /> */}
                             {/* <Text style={styles.centerContainerBtnText}>{reloadBtnText}</Text> */}
                         </TouchableOpacity>
@@ -1393,7 +1394,7 @@ export default class VlCPlayerViewByMethod extends Component {
         </View>);
     }
 
-    getControlView = () => {
+    getControlView = (value) => {
         let {
             title,
             onLeftPress,
@@ -1480,6 +1481,7 @@ export default class VlCPlayerViewByMethod extends Component {
                         showSlider={!isAd}
                         muted={muted}
                         isFull={isFull}
+                        enableFullScreen={value}
                         onMutePress={this.muteToggle}
                         paused={paused}
                         onReload={this.reloadCurrent}
@@ -1609,7 +1611,7 @@ export default class VlCPlayerViewByMethod extends Component {
         return null;
     }
 
-    _renderView = () => {
+    _renderView = (value) => {
         let {
             title,
             onLeftPress,
@@ -1624,7 +1626,7 @@ export default class VlCPlayerViewByMethod extends Component {
         if (isError && !pauseByAutoplay) {
             return this.getErrorView();
         } else if (isEnding) {
-            return this.getEndingView();
+            return this.getEndingView(value);
         } else if (isVipPlayEnd) {
             return this.getVipEndView();
         } else if (netInfo && netInfo.isConnected === false) {
@@ -1636,7 +1638,7 @@ export default class VlCPlayerViewByMethod extends Component {
                     return this.getAdView();
                 } else {
                     if (showControls) {
-                        return this.getControlView();
+                        return this.getControlView(value);
                     }
                 }
             } else {
@@ -1647,7 +1649,7 @@ export default class VlCPlayerViewByMethod extends Component {
                 return this.getLoadingView();
             } else {
                 if (showControls) {
-                    return this.getControlView();
+                    return this.getControlView(value);
                 }
             }
         }
@@ -1671,6 +1673,7 @@ export default class VlCPlayerViewByMethod extends Component {
             initAdOptions,
             initType,
             initOptions,
+            enableFullScreen,
         } = this.props;
         let { isEndAd, isFull, currentUrl, isEnding } = this.state;
         /**
@@ -1806,7 +1809,7 @@ export default class VlCPlayerViewByMethod extends Component {
                     <View
                         style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.05)' }}>
                     </View>
-                    {this._renderView()}
+                    {this._renderView(enableFullScreen)}
                 </View>
             </View>
         );
