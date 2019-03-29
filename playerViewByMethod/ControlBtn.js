@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from 'react-native-slider';
+import renderif from './renderif';
 import PropTypes from 'prop-types';
 import TimeLimt from './TimeLimit';
 
@@ -57,7 +58,8 @@ export default class ControlBtn extends Component {
       currentTime,
       totalTime,
       style,
-      onReload
+      onReload,
+      enableFullScreen
     } = this.props;
     return (
       <View style={styles.controlContainer}>
@@ -141,14 +143,16 @@ export default class ControlBtn extends Component {
                   </View>
                 </View>
               )}
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => {
-                onFullPress && onFullPress(!isFull);
-              }}
-              style={{ width: 35, alignItems: 'center', justifyContent: 'center' }}>
-              <Icon name={isFull ? 'fullscreen-exit' : 'fullscreen'} size={26} color="#fff" />
-            </TouchableOpacity>
+            {renderif(enableFullScreen,
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  onFullPress && onFullPress(!isFull);
+                }}
+                style={{ width: 35, alignItems: 'center', justifyContent: 'center' }}>
+                <Icon name={isFull ? 'fullscreen-exit' : 'fullscreen'} size={26} color="#fff" />
+              </TouchableOpacity>
+            )}
           </View>
         </TouchableOpacity>
       </View>
