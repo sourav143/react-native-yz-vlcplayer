@@ -1376,7 +1376,7 @@ export default class VlCPlayerViewByMethod extends Component {
             }
         }
         return (<View style={styles.commonView}>
-            <TouchableOpacity activeOpacity={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} onPressIn={this._onBodyPressIn} onPressOut={this._onBodyPress}>
+            <TouchableOpacity activeOpacity={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} onPressIn={this._onBodyPressIn} onPressOut={this._onBodyPress} onPress={this.play}>
                 {showPaused && <TouchableOpacity activeOpacity={0.8} style={{ paddingTop: 2, paddingLeft: 2, background: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', width: 70, height: 70 }} onPress={this.play}>
                     <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} />
                 </TouchableOpacity>
@@ -1639,7 +1639,8 @@ export default class VlCPlayerViewByMethod extends Component {
                     return this.getAdView();
                 } else {
                     if (showControls) {
-                        return this.getControlView(value);
+                        if (value)
+                            return this.getControlView(value);
                     }
                 }
             } else {
@@ -1650,7 +1651,8 @@ export default class VlCPlayerViewByMethod extends Component {
                 return this.getLoadingView();
             } else {
                 if (showControls) {
-                    return this.getControlView(value);
+                    if (value)
+                        return this.getControlView(value);
                 }
             }
         }
