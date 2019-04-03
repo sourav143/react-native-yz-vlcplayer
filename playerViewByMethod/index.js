@@ -1243,7 +1243,7 @@ export default class VlCPlayerViewByMethod extends Component {
         )
     }
 
-    getErrorView = () => {
+    getErrorView = (value) => {
         let { showBack, initWithFull, onLeftPress, errorView, errorViewText } = this.props;
         let { errorText, reloadBtnText } = errorViewText;
         let { netInfo, height, width, isFull, isError } = this.state;
@@ -1260,10 +1260,11 @@ export default class VlCPlayerViewByMethod extends Component {
                     )}
                 </View>
                 <View style={styles.centerContainer}>
-                    <Text style={styles.centerContainerText}>{errorText}</Text>
+                    {/* <Text style={styles.centerContainerText}>{errorText}</Text> */}
                     <TouchableOpacity style={styles.centerContainerBtn} onPress={this.reloadError} activeOpacity={0.8}>
-                        <Icon name={'reload'} size={20} color="#fff" />
-                        <Text style={styles.centerContainerBtnText}>{reloadBtnText}</Text>
+                        <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} />
+                        {/* <Icon name={'reload'} size={20} color="#fff" />
+                        <Text style={styles.centerContainerBtnText}>{reloadBtnText}</Text> */}
                     </TouchableOpacity>
                 </View>
             </View>
@@ -1365,7 +1366,7 @@ export default class VlCPlayerViewByMethod extends Component {
         </View>);
     }
 
-    getCommonView = () => {
+    getCommonView = (value) => {
         let { showBack } = this.props;
         let { paused, pauseByAutoplay, isFull } = this.state;
         let showPaused = false;
@@ -1376,8 +1377,8 @@ export default class VlCPlayerViewByMethod extends Component {
         }
         return (<View style={styles.commonView}>
             <TouchableOpacity activeOpacity={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} onPressIn={this._onBodyPressIn} onPressOut={this._onBodyPress}>
-                {showPaused && <TouchableOpacity activeOpacity={0.8} style={{ paddingTop: 2, paddingLeft: 2, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', width: 50, height: 50, borderRadius: 25 }} onPress={this.play}>
-                    <Icon name={'play'} size={30} color="#fff" />
+                {showPaused && <TouchableOpacity activeOpacity={0.8} style={{ paddingTop: 2, paddingLeft: 2, background: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', width: 70, height: 70 }} onPress={this.play}>
+                    <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} />
                 </TouchableOpacity>
                 }
             </TouchableOpacity>
@@ -1624,7 +1625,7 @@ export default class VlCPlayerViewByMethod extends Component {
         } = this.props;
         let { isFull, showControls, isEnding, isVipPlayEnd, isError, showChapter, isEndAd, netInfo, currentUrl, pauseByAutoplay } = this.state;
         if (isError && !pauseByAutoplay) {
-            return this.getErrorView();
+            return this.getErrorView(value);
         } else if (isEnding) {
             return this.getEndingView(value);
         } else if (isVipPlayEnd) {
@@ -1653,7 +1654,7 @@ export default class VlCPlayerViewByMethod extends Component {
                 }
             }
         }
-        return this.getCommonView();
+        return this.getCommonView(value);
     }
 
 
