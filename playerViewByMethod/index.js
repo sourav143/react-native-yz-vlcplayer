@@ -1307,7 +1307,7 @@ export default class VlCPlayerViewByMethod extends Component {
                             ref={ref => {
                                 this.imageRef = ref;
                             }}
-                            style={{ height: 200 }}
+                            style={{ height: 200, opacity: 0.6 }}
                             source={{
                                 uri: url ? url : 'https://ipfsgateway.wandx.co/ipfs/QmNsvJarayfS3CiTxiNXoqcLgMwD1vWZAvcUS7JJCEihFS/thumbnail.jpg',
                                 // priority: FastImage.priority.normal,
@@ -1450,7 +1450,7 @@ export default class VlCPlayerViewByMethod extends Component {
             )}
 
             {!value && showPaused &&
-                <TouchableOpacity style={{ flex: 1 }}
+                <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}
                     onPress={() => {
                         // this.vlcPlayerViewAdRef.play();
                         // this.props.openVideoModal(this.props.data)
@@ -1460,7 +1460,7 @@ export default class VlCPlayerViewByMethod extends Component {
                         ref={ref => {
                             this.imageRef = ref;
                         }}
-                        style={{ height: 200 }}
+                        style={{ height: 200, opacity: 0.6 }}
                         source={{
                             uri: url ? url : 'https://ipfsgateway.wandx.co/ipfs/QmNsvJarayfS3CiTxiNXoqcLgMwD1vWZAvcUS7JJCEihFS/thumbnail.jpg',
                             // priority: FastImage.priority.normal,
@@ -1468,7 +1468,7 @@ export default class VlCPlayerViewByMethod extends Component {
                     // resizeMode={FastImage.resizeMode.cover}
                     // onLoad={this.handleOnLoad}
                     />
-                    <View style={{ backgroundColor: "#876eff", width: 50, height: 50, position: "absolute", justifyContent: 'center', top: "70%", borderRadius: 30, left: "2%" }}>
+                    <View activeOpacity={0.6} style={{ backgroundColor: "#876eff", width: 50, height: 50, position: "absolute", justifyContent: 'center', top: "70%", borderRadius: 30, left: "2%" }}>
                         {/* <Text>jkvbdfjlkbv</Text> */}
                     </View>
                     <MaterialIcons name="gif" color="white" size={50}
