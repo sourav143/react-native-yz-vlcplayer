@@ -955,6 +955,7 @@ export default class VlCPlayerViewByMethod extends Component {
     };
 
     reloadError = () => {
+        console.log("came here");
         this.firstPlaying = false;
         this.isReloadingError = true;
         this.startReload(false);
@@ -1300,7 +1301,7 @@ export default class VlCPlayerViewByMethod extends Component {
                         onPress={() => {
                             // this.vlcPlayerViewAdRef.play();
                             // this.props.openVideoModal(this.props.data)
-                            this.reloadError
+                            this.reloadError()
                         }}>
                         <Image
                             ref={ref => {
