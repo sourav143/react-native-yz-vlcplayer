@@ -27,6 +27,7 @@ import ControlBtn from './ControlBtn';
 import TimeLimt from './TimeLimit';
 import { getStatusBarHeight } from './SizeController';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import renderIf from '../../../src/components/renderif';
 const statusBarHeight = getStatusBarHeight();
 const _fullKey = 'commonVideo_android_fullKey';
 let deviceHeight = Dimensions.get('window').height;
@@ -141,6 +142,7 @@ export default class VlCPlayerViewByMethod extends Component {
         initWithFull: false,
         considerStatusBar: false,
         enableFullScreen: true,
+        attachedUrl: undefined,
         style: {
         },
         fullStyle: {
@@ -174,6 +176,7 @@ export default class VlCPlayerViewByMethod extends Component {
         //视频初始化参数
         initOptions: PropTypes.array,
         enableFullScreen: PropTypes.bool,
+        attachedUrl: PropTypes.string,
         /**
          * 直播相关
          */
@@ -1202,7 +1205,7 @@ export default class VlCPlayerViewByMethod extends Component {
         );
     }
 
-    getEndingView = (value) => {
+    getEndingView = (value, url) => {
         let {
             autoPlayNext,
             hadNext,
@@ -1212,23 +1215,55 @@ export default class VlCPlayerViewByMethod extends Component {
         let { height, width, isFull } = this.state;
         let { endingText, reloadBtnText, nextBtnText } = endingViewText;
         return (
+
+
             <View style={[styles.commonView, { backgroundColor: 'rgba(0,0,0,0.5)' }]}>
-                <View style={styles.centerContainer}>
-                    {/* <Text style={styles.centerContainerText}>Retry</Text> */}
-                    <View style={styles.centerRowContainer}>
-                        <TouchableOpacity style={styles.centerContainerBtn} onPress={this.reload} activeOpacity={1}>
-                            <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} />
-                            {/* <Icon name={'reload'} size={40} color="#fff" /> */}
-                            {/* <Text style={styles.centerContainerBtnText}>{reloadBtnText}</Text> */}
-                        </TouchableOpacity>
-                        {!autoPlayNext &&
-                            hadNext && (<TouchableOpacity style={[styles.centerContainerBtn, { marginLeft: 15 }]} onPress={this._next} activeOpacity={1}>
-                                <Icon name={'reload'} size={20} color="#fff" />
-                                <Text style={styles.centerContainerBtnText}>{nextBtnText}</Text>
-                            </TouchableOpacity>)
-                        }
+                {renderIf(!value,
+                    <View style={[styles.commonView, { backgroundColor: 'rgba(0,0,0,0.5)' }]}   >
+                        {/* <Text style={styles.centerContainerText}>Retry</Text> */}
+                        <View style={styles.commonView}>
+                            <TouchableOpacity style={{ flex: 1 }} onPress={this.reload} activeOpacity={1}>
+                                <View style={{ backgroundColor: "#876eff", width: 50, height: 50, position: "absolute", justifyContent: 'center', top: "70%", borderRadius: 30, left: "2%" }}>
+                                </View>
+                                <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={50} style={{
+                                    position: "absolute",
+                                    justifyContent: "center",
+                                    top: "70%",
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    left: "2%"
+                                }} />
+                                {/* <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} /> */}
+                                {/* <Icon name={'reload'} size={40} color="#fff" /> */}
+                                {/* <Text style={styles.centerContainerBtnText}>{reloadBtnText}</Text> */}
+                            </TouchableOpacity>
+                            {!autoPlayNext &&
+                                hadNext && (<TouchableOpacity style={[styles.centerContainerBtn, { marginLeft: 15 }]} onPress={this._next} activeOpacity={1}>
+                                    <Icon name={'reload'} size={20} color="#fff" />
+                                    <Text style={styles.centerContainerBtnText}>{nextBtnText}</Text>
+                                </TouchableOpacity>)
+                            }
+                        </View>
                     </View>
-                </View>
+                )}
+                {renderIf(value,
+                    <View style={styles.centerContainer}>
+                        {/* <Text style={styles.centerContainerText}>Retry</Text> */}
+                        <View style={styles.centerRowContainer}>
+                            <TouchableOpacity style={styles.centerContainerBtn} onPress={this.reload} activeOpacity={1}>
+                                <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} />
+                                {/* <Icon name={'reload'} size={40} color="#fff" /> */}
+                                {/* <Text style={styles.centerContainerBtnText}>{reloadBtnText}</Text> */}
+                            </TouchableOpacity>
+                            {!autoPlayNext &&
+                                hadNext && (<TouchableOpacity style={[styles.centerContainerBtn, { marginLeft: 15 }]} onPress={this._next} activeOpacity={1}>
+                                    <Icon name={'reload'} size={20} color="#fff" />
+                                    <Text style={styles.centerContainerBtnText}>{nextBtnText}</Text>
+                                </TouchableOpacity>)
+                            }
+                        </View>
+                    </View>
+                )}
                 <View style={{ height: 37, width: 40, position: 'absolute', top: 0, left: 0, zIndex: 999 }}>
                     {(isFull || showBack) && (
                         <TouchableOpacity
@@ -1243,7 +1278,7 @@ export default class VlCPlayerViewByMethod extends Component {
         )
     }
 
-    getErrorView = (value) => {
+    getErrorView = (value, url) => {
         let { showBack, initWithFull, onLeftPress, errorView, errorViewText } = this.props;
         let { errorText, reloadBtnText } = errorViewText;
         let { netInfo, height, width, isFull, isError } = this.state;
@@ -1259,12 +1294,40 @@ export default class VlCPlayerViewByMethod extends Component {
                         </TouchableOpacity>
                     )}
                 </View>
-                <View style={styles.centerContainer}>
+                <View style={[styles.commonView, { backgroundColor: 'rgba(0,0,0,0.5)' }]}>
                     {/* <Text style={styles.centerContainerText}>{errorText}</Text> */}
-                    <TouchableOpacity style={styles.centerContainerBtn} onPress={this.reloadError} activeOpacity={0.8}>
-                        <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} />
-                        {/* <Icon name={'reload'} size={20} color="#fff" />
-                        <Text style={styles.centerContainerBtnText}>{reloadBtnText}</Text> */}
+                    <TouchableOpacity style={{ flex: 1 }}
+                        onPress={() => {
+                            // this.vlcPlayerViewAdRef.play();
+                            // this.props.openVideoModal(this.props.data)
+                            this.reloadError
+                        }}>
+                        <Image
+                            ref={ref => {
+                                this.imageRef = ref;
+                            }}
+                            style={{ height: 200 }}
+                            source={{
+                                uri: url ? url : 'https://ipfsgateway.wandx.co/ipfs/QmNsvJarayfS3CiTxiNXoqcLgMwD1vWZAvcUS7JJCEihFS/thumbnail.jpg',
+                                // priority: FastImage.priority.normal,
+                            }}
+                        // resizeMode={FastImage.resizeMode.cover}
+                        // onLoad={this.handleOnLoad}
+                        />
+                        <View style={{ backgroundColor: "#876eff", width: 50, height: 50, position: "absolute", justifyContent: 'center', top: "70%", borderRadius: 30, left: "2%" }}>
+                            {/* <Text>jkvbdfjlkbv</Text> */}
+                        </View>
+                        <MaterialIcons name="gif" color="white" size={50}
+                            style={{
+                                position: "absolute",
+                                justifyContent: "center",
+                                top: "70%",
+                                background: 'red',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                left: "2%"
+                            }}
+                        />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -1366,7 +1429,7 @@ export default class VlCPlayerViewByMethod extends Component {
         </View>);
     }
 
-    getCommonView = (value) => {
+    getCommonView = (value, url) => {
         let { showBack } = this.props;
         let { paused, pauseByAutoplay, isFull } = this.state;
         let showPaused = false;
@@ -1376,12 +1439,50 @@ export default class VlCPlayerViewByMethod extends Component {
             }
         }
         return (<View style={styles.commonView}>
-            <TouchableOpacity activeOpacity={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} onPressIn={this._onBodyPressIn} onPressOut={this._onBodyPress} onPress={this.play}>
-                {showPaused && <TouchableOpacity activeOpacity={0.8} style={{ paddingTop: 2, paddingLeft: 2, background: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', width: 70, height: 70 }} onPress={this.play}>
-                    <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} />
+            {renderIf(value,
+                <TouchableOpacity activeOpacity={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} onPressIn={this._onBodyPressIn} onPressOut={this._onBodyPress} onPress={this.play}>
+                    {showPaused && <TouchableOpacity activeOpacity={0.8} style={{ paddingTop: 2, paddingLeft: 2, background: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', width: 70, height: 70 }} onPress={this.play}>
+                        <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} />
+                    </TouchableOpacity>
+                    }
                 </TouchableOpacity>
-                }
-            </TouchableOpacity>
+            )}
+
+            {!value && showPaused &&
+                <TouchableOpacity style={{ flex: 1 }}
+                    onPress={() => {
+                        // this.vlcPlayerViewAdRef.play();
+                        // this.props.openVideoModal(this.props.data)
+                        this.play()
+                    }}>
+                    <Image
+                        ref={ref => {
+                            this.imageRef = ref;
+                        }}
+                        style={{ height: 200 }}
+                        source={{
+                            uri: url ? url : 'https://ipfsgateway.wandx.co/ipfs/QmNsvJarayfS3CiTxiNXoqcLgMwD1vWZAvcUS7JJCEihFS/thumbnail.jpg',
+                            // priority: FastImage.priority.normal,
+                        }}
+                    // resizeMode={FastImage.resizeMode.cover}
+                    // onLoad={this.handleOnLoad}
+                    />
+                    <View style={{ backgroundColor: "#876eff", width: 50, height: 50, position: "absolute", justifyContent: 'center', top: "70%", borderRadius: 30, left: "2%" }}>
+                        {/* <Text>jkvbdfjlkbv</Text> */}
+                    </View>
+                    <MaterialIcons name="gif" color="white" size={50}
+                        style={{
+                            position: "absolute",
+                            justifyContent: "center",
+                            top: "70%",
+                            background: 'red',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            left: "2%"
+                        }}
+                    />
+                </TouchableOpacity>
+            }
             <View style={[styles.backBtn, { position: 'absolute', left: 0, top: 0, zIndex: 999 }]}>
                 {(isFull || showBack) && (
                     <TouchableOpacity
@@ -1570,7 +1671,7 @@ export default class VlCPlayerViewByMethod extends Component {
         )
     }
 
-    _renderLoading = () => {
+    _renderLoading = (value) => {
         let { showAd } = this.props;
         let { pauseByAutoplay, isEndAd, totalTime, showLoading } = this.state;
         let realShowLoading = false;
@@ -1602,7 +1703,7 @@ export default class VlCPlayerViewByMethod extends Component {
         if (this.isProgressChange) {
             realShowLoading = false;
         }
-        if (realShowLoading) {
+        if (realShowLoading && value) {
             return (
                 <View style={styles.loading}>
                     <ActivityIndicator size={'large'} animating={true} color="#fff" />
@@ -1612,7 +1713,7 @@ export default class VlCPlayerViewByMethod extends Component {
         return null;
     }
 
-    _renderView = (value) => {
+    _renderView = (value, url) => {
         let {
             title,
             onLeftPress,
@@ -1625,9 +1726,9 @@ export default class VlCPlayerViewByMethod extends Component {
         } = this.props;
         let { isFull, showControls, isEnding, isVipPlayEnd, isError, showChapter, isEndAd, netInfo, currentUrl, pauseByAutoplay } = this.state;
         if (isError && !pauseByAutoplay) {
-            return this.getErrorView(value);
+            return this.getErrorView(value, url);
         } else if (isEnding) {
-            return this.getEndingView(value);
+            return this.getEndingView(value, url);
         } else if (isVipPlayEnd) {
             return this.getVipEndView();
         } else if (netInfo && netInfo.isConnected === false) {
@@ -1656,7 +1757,7 @@ export default class VlCPlayerViewByMethod extends Component {
                 }
             }
         }
-        return this.getCommonView(value);
+        return this.getCommonView(value, url);
     }
 
 
@@ -1677,12 +1778,13 @@ export default class VlCPlayerViewByMethod extends Component {
             initType,
             initOptions,
             enableFullScreen,
+            attachedUrl
         } = this.props;
         let { isEndAd, isFull, currentUrl, isEnding } = this.state;
         /**
          * set videoAspectRatio
-         * @type {string}
-         */
+     * @type {string}
+        */
         let currentVideoAspectRatio = '';//this.state.width + ':' + this.state.height;
         if (isFull) {
             if (fullVideoAspectRatio) {
@@ -1696,7 +1798,7 @@ export default class VlCPlayerViewByMethod extends Component {
         /**
          * check video can be play
          * @type {boolean}
-         */
+            */
         let showVideo = false;
         let realShowAd = false;
         if (showAd) {
@@ -1719,8 +1821,8 @@ export default class VlCPlayerViewByMethod extends Component {
 
         /**
          * check if need consider statusbar
-         * @type {{}}
-         */
+     * @type {{}}
+        */
         let considerStyle = {};
         if (!isFull && considerStatusBar) {
             if (Platform.OS === 'ios') {
@@ -1807,12 +1909,12 @@ export default class VlCPlayerViewByMethod extends Component {
                                 }
                             />
                         )}
-                        {this._renderLoading()}
+                        {this._renderLoading(enableFullScreen)}
                     </TouchableOpacity>
                     <View
                         style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.05)' }}>
                     </View>
-                    {this._renderView(enableFullScreen)}
+                    {this._renderView(enableFullScreen, attachedUrl)}
                 </View>
             </View>
         );
