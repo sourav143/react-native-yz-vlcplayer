@@ -1226,12 +1226,12 @@ export default class VlCPlayerViewByMethod extends Component {
 						{/* <Text style={styles.centerContainerText}>Retry</Text> */}
 						<View style={styles.commonView}>
 							<TouchableOpacity style={{ flex: 1 }} onPress={this.reload} activeOpacity={1}>
-								<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: gif ? 60 : 40, height: gif ? 60 : 40, position: "absolute", justifyContent: 'center', top: gif ? "40%" : "30%", borderRadius: 35, left: gif ? "40%" : "42%" }}>
+								<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: gif ? 60 : 40, height: gif ? 60 : 40, position: "absolute", justifyContent: 'center', top: gif ? "40%" : "35%", borderRadius: 35, left: gif ? "40%" : "42%" }}>
 								</View>
 								<MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={gif ? 55 : 40} style={{
 									position: "absolute",
 									justifyContent: "center",
-									top: gif ? "41%" : "30%",
+									top: gif ? "41%" : "35%",
 									justifyContent: 'center',
 									alignItems: 'center',
 									left: gif ? "40.5%" : "42%"
@@ -1317,12 +1317,12 @@ export default class VlCPlayerViewByMethod extends Component {
 						// resizeMode={FastImage.resizeMode.cover}
 						// onLoad={this.handleOnLoad}
 						/>
-						<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: gif ? 60 : 40, height: gif ? 60 : 40, position: "absolute", justifyContent: 'center', top: gif ? "40%" : "30%", borderRadius: 35, left: gif ? "40%" : "42%" }}>
+						<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: gif ? 60 : 40, height: gif ? 60 : 40, position: "absolute", justifyContent: 'center', top: gif ? "40%" : "35%", borderRadius: 35, left: gif ? "40%" : "42%" }}>
 						</View>
 						<MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={gif ? 55 : 40} style={{
 							position: "absolute",
 							justifyContent: "center",
-							top: gif ? "41%" : "30%",
+							top: gif ? "41%" : "35%",
 							justifyContent: 'center',
 							alignItems: 'center',
 							left: gif ? "40.5%" : "42%"
@@ -1492,12 +1492,12 @@ export default class VlCPlayerViewByMethod extends Component {
 					// resizeMode={FastImage.resizeMode.cover}
 					// onLoad={this.handleOnLoad}
 					/>
-					<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: gif ? 60 : 40, height: gif ? 60 : 40, position: "absolute", justifyContent: 'center', top: gif ? "40%" : "30%", borderRadius: 35, left: gif ? "40%" : "42%" }}>
+					<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: gif ? 60 : 40, height: gif ? 60 : 40, position: "absolute", justifyContent: 'center', top: gif ? "40%" : "35%", borderRadius: 35, left: gif ? "40%" : "42%" }}>
 					</View>
 					<MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={gif ? 55 : 40} style={{
 						position: "absolute",
 						justifyContent: "center",
-						top: gif ? "41%" : "30%",
+						top: gif ? "41%" : "35%",
 						justifyContent: 'center',
 						alignItems: 'center',
 						left: gif ? "40.5%" : "42%"
