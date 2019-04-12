@@ -143,6 +143,7 @@ export default class VlCPlayerViewByMethod extends Component {
 		considerStatusBar: false,
 		enableFullScreen: true,
 		attachedUrl: undefined,
+		gif: true,
 		style: {
 		},
 		fullStyle: {
@@ -176,6 +177,7 @@ export default class VlCPlayerViewByMethod extends Component {
 		//视频初始化参数
 		initOptions: PropTypes.array,
 		enableFullScreen: PropTypes.bool,
+		gif: PropTypes.bool,
 		attachedUrl: PropTypes.string,
 		/**
 		 * 直播相关
@@ -1206,7 +1208,7 @@ export default class VlCPlayerViewByMethod extends Component {
 		);
 	}
 
-	getEndingView = (value, url) => {
+	getEndingView = (value, url, gif) => {
 		let {
 			autoPlayNext,
 			hadNext,
@@ -1218,21 +1220,21 @@ export default class VlCPlayerViewByMethod extends Component {
 		return (
 
 
-			<View style={[styles.commonView, { backgroundColor: 'rgba(0,0,0,0.5)' }]}>
+			<View style={[styles.commonView]}>
 				{renderIf(!value,
-					<View style={[styles.commonView, { backgroundColor: 'rgba(0,0,0,0.5)' }]}   >
+					<View style={[styles.commonView]}   >
 						{/* <Text style={styles.centerContainerText}>Retry</Text> */}
 						<View style={styles.commonView}>
 							<TouchableOpacity style={{ flex: 1 }} onPress={this.reload} activeOpacity={1}>
-								<View style={{ backgroundColor: "#876eff", width: 50, height: 50, position: "absolute", justifyContent: 'center', top: "70%", borderRadius: 30, left: "2%" }}>
+								<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: gif ? 60 : 40, height: gif ? 60 : 40, position: "absolute", justifyContent: 'center', top: gif ? "40%" : "30%", borderRadius: 35, left: gif ? "40%" : "42%" }}>
 								</View>
-								<MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={50} style={{
+								<MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={gif ? 55 : 40} style={{
 									position: "absolute",
 									justifyContent: "center",
-									top: "70%",
+									top: gif ? "41%" : "30%",
 									justifyContent: 'center',
 									alignItems: 'center',
-									left: "2%"
+									left: gif ? "40.5%" : "42%"
 								}} />
 								{/* <MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} /> */}
 								{/* <Icon name={'reload'} size={40} color="#fff" /> */}
@@ -1279,7 +1281,7 @@ export default class VlCPlayerViewByMethod extends Component {
 		)
 	}
 
-	getErrorView = (value, url) => {
+	getErrorView = (value, url, gif) => {
 		let { showBack, initWithFull, onLeftPress, errorView, errorViewText } = this.props;
 		let { errorText, reloadBtnText } = errorViewText;
 		let { netInfo, height, width, isFull, isError } = this.state;
@@ -1295,7 +1297,7 @@ export default class VlCPlayerViewByMethod extends Component {
 						</TouchableOpacity>
 					)}
 				</View>
-				<View style={[styles.commonView, { backgroundColor: 'rgba(0,0,0,0.5)' }]}>
+				<View style={[styles.commonView]}>
 					{/* <Text style={styles.centerContainerText}>{errorText}</Text> */}
 					<TouchableOpacity style={{ flex: 1 }}
 						onPress={() => {
@@ -1307,7 +1309,7 @@ export default class VlCPlayerViewByMethod extends Component {
 							ref={ref => {
 								this.imageRef = ref;
 							}}
-							style={{ height: 200, opacity: 0.6, width: width, height: 300, position: "absolute", justifyContent: 'center' }}
+							style={{ height: 200, width: width, height: 300, position: "absolute", justifyContent: 'center' }}
 							source={{
 								uri: url ? url : 'https://ipfsgateway.wandx.co/ipfs/QmNsvJarayfS3CiTxiNXoqcLgMwD1vWZAvcUS7JJCEihFS/thumbnail.jpg',
 								// priority: FastImage.priority.normal,
@@ -1315,20 +1317,16 @@ export default class VlCPlayerViewByMethod extends Component {
 						// resizeMode={FastImage.resizeMode.cover}
 						// onLoad={this.handleOnLoad}
 						/>
-						<View style={{ backgroundColor: "#876eff", width: 50, height: 50, position: "absolute", justifyContent: 'center', top: "70%", borderRadius: 30, left: "2%" }}>
-							{/* <Text>jkvbdfjlkbv</Text> */}
+						<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: gif ? 60 : 40, height: gif ? 60 : 40, position: "absolute", justifyContent: 'center', top: gif ? "40%" : "30%", borderRadius: 35, left: gif ? "40%" : "42%" }}>
 						</View>
-						<MaterialIcons name="gif" color="white" size={50}
-							style={{
-								position: "absolute",
-								justifyContent: "center",
-								top: "70%",
-								background: 'red',
-								justifyContent: 'center',
-								alignItems: 'center',
-								left: "2%"
-							}}
-						/>
+						<MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={gif ? 55 : 40} style={{
+							position: "absolute",
+							justifyContent: "center",
+							top: gif ? "41%" : "30%",
+							justifyContent: 'center',
+							alignItems: 'center',
+							left: gif ? "40.5%" : "42%"
+						}} />
 					</TouchableOpacity>
 				</View>
 			</View>
@@ -1456,7 +1454,7 @@ export default class VlCPlayerViewByMethod extends Component {
 		</View>);
 	}
 
-	getCommonView = (value, url) => {
+	getCommonView = (value, url, gif) => {
 		let { showBack } = this.props;
 		let { paused, pauseByAutoplay, isFull } = this.state;
 		let showPaused = false;
@@ -1469,7 +1467,7 @@ export default class VlCPlayerViewByMethod extends Component {
 			{renderIf(value,
 				<TouchableOpacity activeOpacity={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} onPressIn={this._onBodyPressIn} onPressOut={this._onBodyPress} onPress={this.play}>
 					{showPaused && <TouchableOpacity activeOpacity={0.8} style={{ paddingTop: 2, paddingLeft: 2, background: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', width: 70, height: 70 }} onPress={this.play}>
-						<MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={70} />
+						<MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="green" size={70} />
 					</TouchableOpacity>
 					}
 				</TouchableOpacity>
@@ -1486,7 +1484,7 @@ export default class VlCPlayerViewByMethod extends Component {
 						ref={ref => {
 							this.imageRef = ref;
 						}}
-						style={{ height: 200, opacity: 0.6 }}
+						style={{ height: "100%" }}
 						source={{
 							uri: url ? url : 'https://ipfsgateway.wandx.co/ipfs/QmNsvJarayfS3CiTxiNXoqcLgMwD1vWZAvcUS7JJCEihFS/thumbnail.jpg',
 							// priority: FastImage.priority.normal,
@@ -1494,20 +1492,16 @@ export default class VlCPlayerViewByMethod extends Component {
 					// resizeMode={FastImage.resizeMode.cover}
 					// onLoad={this.handleOnLoad}
 					/>
-					<View activeOpacity={0.6} style={{ backgroundColor: "#876eff", width: 50, height: 50, position: "absolute", justifyContent: 'center', top: "70%", borderRadius: 30, left: "2%" }}>
-						{/* <Text>jkvbdfjlkbv</Text> */}
+					<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: gif ? 60 : 40, height: gif ? 60 : 40, position: "absolute", justifyContent: 'center', top: gif ? "40%" : "30%", borderRadius: 35, left: gif ? "40%" : "42%" }}>
 					</View>
-					<MaterialIcons name="gif" color="white" size={50}
-						style={{
-							position: "absolute",
-							justifyContent: "center",
-							top: "70%",
-							background: 'red',
-							justifyContent: 'center',
-							alignItems: 'center',
-							left: "2%"
-						}}
-					/>
+					<MaterialIcons name={!value ? "gif" : "play-circle-filled"} color="white" size={gif ? 55 : 40} style={{
+						position: "absolute",
+						justifyContent: "center",
+						top: gif ? "41%" : "30%",
+						justifyContent: 'center',
+						alignItems: 'center',
+						left: gif ? "40.5%" : "42%"
+					}} />
 				</TouchableOpacity>
 			}
 			<View style={[styles.backBtn, { position: 'absolute', left: 0, top: 0, zIndex: 999 }]}>
@@ -1740,7 +1734,7 @@ export default class VlCPlayerViewByMethod extends Component {
 		return null;
 	}
 
-	_renderView = (value, url) => {
+	_renderView = (value, url, gif) => {
 		let {
 			title,
 			onLeftPress,
@@ -1753,9 +1747,9 @@ export default class VlCPlayerViewByMethod extends Component {
 		} = this.props;
 		let { isFull, showControls, isEnding, isVipPlayEnd, isError, showChapter, isEndAd, netInfo, currentUrl, pauseByAutoplay } = this.state;
 		if (isError && !pauseByAutoplay) {
-			return this.getErrorView(value, url);
+			return this.getErrorView(value, url, gif);
 		} else if (isEnding) {
-			return this.getEndingView(value, url);
+			return this.getEndingView(value, url, gif);
 		} else if (isVipPlayEnd) {
 			return this.getVipEndView();
 		} else if (netInfo && netInfo.isConnected === false) {
@@ -1784,7 +1778,7 @@ export default class VlCPlayerViewByMethod extends Component {
 				}
 			}
 		}
-		return this.getCommonView(value, url);
+		return this.getCommonView(value, url, gif);
 	}
 
 
@@ -1805,7 +1799,8 @@ export default class VlCPlayerViewByMethod extends Component {
 			initType,
 			initOptions,
 			enableFullScreen,
-			attachedUrl
+			attachedUrl,
+			gif
 		} = this.props;
 		let { isEndAd, isFull, currentUrl, isEnding } = this.state;
 		/**
@@ -1941,7 +1936,7 @@ export default class VlCPlayerViewByMethod extends Component {
 					<View
 						style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.05)' }}>
 					</View>
-					{this._renderView(enableFullScreen, attachedUrl)}
+					{this._renderView(enableFullScreen, attachedUrl, gif)}
 				</View>
 			</View>
 		);
